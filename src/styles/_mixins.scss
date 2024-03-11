@@ -1,0 +1,15 @@
+@import 'variables';
+
+@mixin border-primary {
+  border: $border-primary;
+  border-radius: $border-radius;
+}
+
+@mixin border-accent {
+  border: $border-accent;
+  border-radius: $border-radius;
+}
+
+@mixin transition-default {
+  transition: all 0.2s ease-out;
+}
