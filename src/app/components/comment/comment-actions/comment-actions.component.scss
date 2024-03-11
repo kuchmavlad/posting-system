@@ -1,0 +1,20 @@
+@import 'src/styles/mixins';
+@import 'src/styles/variables';
+
+.comment-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comment-action {
+  @include transition-default;
+  cursor: pointer;
+  line-height: 0;
+  border-radius: 6px;
+  padding: 3px;
+
+  &:hover {
+    background: $color-btn-bg-secondary-hover;
+  }
+}

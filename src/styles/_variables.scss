@@ -1,0 +1,18 @@
+$color-primary: #e6edf3;
+$color-primary-disabled: rgba($color-primary, 0.6);
+$color-accent: #848d97;
+$color-secondary: #2f81f7;
+$color-border-primary: #30363d;
+$color-border-accent: rgba(56, 139, 253, 0.4);
+$color-border-focus: #1f6feb;
+$color-bg-primary: #0d1117;
+$color-bg-secondary: #161b22;
+$color-bg-accent: rgba(56, 139, 253, 0.1);
+$color-btn-bg: #238636;
+$color-btn-bg-hover: #2ea043;
+$color-btn-bg-secondary-hover: rgba(177, 186, 196, 0.12);
+$color-btn-bg-disabled: rgba($color-btn-bg, 0.6);
+
+$border-radius: 6px;
+$border-primary: 1px solid $color-border-primary;
+$border-accent: 1px solid $color-border-accent;

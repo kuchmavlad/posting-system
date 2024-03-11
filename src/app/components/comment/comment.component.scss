@@ -1,0 +1,60 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+.comment-wrapper {
+  @include border-accent;
+  position: relative;
+
+  &:after,
+  &:before {
+    position: absolute;
+    top: 11px;
+    right: 100%;
+    left: -8px;
+    display: block;
+    width: 8px;
+    height: 16px;
+    pointer-events: none;
+    content: ' ';
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+  }
+
+  &:before {
+    background-color: $color-border-accent;
+  }
+
+  &:after {
+    margin-left: 2px;
+    background-color: $color-bg-primary;
+    background-image: linear-gradient($color-bg-accent, $color-bg-accent);
+  }
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $color-bg-accent;
+  border-bottom: $border-accent;
+  padding: 8px 16px;
+  font-size: 14px;
+  line-height: 20px;
+  color: $color-accent;
+}
+
+.comment-link {
+  color: $color-primary;
+  font-weight: 600;
+
+  &:hover {
+    text-decoration: underline;
+    color: $color-secondary;
+  }
+}
+
+.comment-body {
+  padding: 16px;
+  font-size: 14px;
+  line-height: 20px;
+  color: $color-primary;
+}
