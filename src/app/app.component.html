@@ -1,9 +1,12 @@
 <div class="comments-list">
-  <app-comment-box>
-    <app-comment />
+  <app-comment-box *ngFor="let comment of comments">
+    <app-comment [comment]="comment" />
   </app-comment-box>
 
   <app-comment-box>
-    <app-add-comment />
+    <div class="add-comment-wrapper">
+      <h4 class="comment-title">Add a comment</h4>
+      <app-add-comment />
+    </div>
   </app-comment-box>
 </div>

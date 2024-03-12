@@ -1,8 +1,8 @@
 <div class="comment-actions">
-  <button class="comment-action">
+  <button (click)="emitEdit()" class="comment-action">
     <img src="assets/edit.svg" alt="edit comment" />
   </button>
-  <button class="comment-action">
+  <button (click)="emitRemove()" class="comment-action">
     <img src="assets/remove.svg" alt="remove comment" />
   </button>
 </div>

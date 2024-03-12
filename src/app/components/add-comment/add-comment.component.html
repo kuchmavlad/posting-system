@@ -1,4 +1,3 @@
-<h4 class="comment-title">Add a comment</h4>
 <div class="add-comment">
   <div class="add-comment-header">
     <button class="add-comment-tab active">Write</button>
@@ -8,9 +7,31 @@
     <textarea
       class="add-comment-input"
       rows="4"
-      placeholder="Add your comment here..."></textarea>
+      [(ngModel)]="value"
+      placeholder="Add your comment here..."
+      >{{ value }}</textarea
+    >
   </div>
   <div class="add-comment-footer">
-    <button class="add-comment-btn">Comment</button>
+    <ng-container *ngIf="!editMode; else editModeButtons">
+      <button
+        (click)="addCommentHandle()"
+        [disabled]="!value"
+        class="add-comment-btn">
+        Comment
+      </button>
+    </ng-container>
+
+    <ng-template #editModeButtons>
+      <button (click)="emitCancel()" class="add-comment-btn cancel-btn">
+        Cancel
+      </button>
+      <button
+        [disabled]="false"
+        (click)="editCommentHandle()"
+        class="add-comment-btn">
+        Update comment
+      </button>
+    </ng-template>
   </div>
 </div>
