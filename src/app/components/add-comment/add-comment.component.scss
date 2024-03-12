@@ -63,6 +63,7 @@
 .add-comment-footer {
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
   padding: 0 8px 8px;
 }
 
@@ -84,5 +85,15 @@
     background: $color-btn-bg-disabled;
     color: $color-primary-disabled;
     cursor: auto;
+  }
+}
+
+.cancel-btn {
+  background: $color-bg-secondary;
+  color: $color-danger;
+
+  &:hover {
+    background: $color-danger;
+    color: $color-primary;
   }
 }

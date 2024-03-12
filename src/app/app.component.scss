@@ -1,9 +1,19 @@
+@import 'src/styles/variables';
+
 .comments-list {
   max-width: 800px;
   margin: 20px auto;
 }
 
-app-add-comment,
+.comment-title {
+  margin-bottom: 8px;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+  color: $color-primary;
+}
+
+.add-comment-wrapper,
 app-comment {
   flex: 1;
 }

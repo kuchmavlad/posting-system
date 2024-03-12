@@ -3,7 +3,20 @@
     <span
       ><a class="comment-link" href="#">kuchmavlad</a> commented last week</span
     >
-    <app-comment-actions />
+    <app-comment-actions
+      (editHandle)="editHandle()"
+      (removeHandle)="removeHandle()" />
   </div>
-  <div class="comment-body">Add eslint, prettier, husky, lint staged</div>
+  <div class="comment-body">
+    <ng-container *ngIf="!editMode; else confirmationBlock">
+      {{ comment.text }}
+    </ng-container>
+
+    <ng-template #confirmationBlock>
+      <app-add-comment
+        [editMode]="true"
+        (cancelHandle)="editHandle()"
+        [comment]="comment" />
+    </ng-template>
+  </div>
 </div>
