@@ -7,6 +7,9 @@ import { Comment } from '../components/comment/comment.component';
 })
 export class LocalStorageService {
   private readonly commentsKey = 'comments';
+
+  private readonly savedTextKey = 'savedText';
+
   private commentsSubject = new BehaviorSubject<Comment[]>([]);
 
   constructor() {
@@ -24,6 +27,7 @@ export class LocalStorageService {
       id: String(Date.now()),
       title: 'This is an item',
       text: value,
+      savedText: '',
       tags: ['bug', 'issue', 'etc'],
     };
 
@@ -55,6 +59,33 @@ export class LocalStorageService {
     );
     localStorage.setItem(this.commentsKey, JSON.stringify(updatedComments));
     this.refreshComments();
+  }
+
+  saveCommentText(value: string, id?: string): void {
+    if (!id) {
+      localStorage.setItem(this.savedTextKey, value);
+    }
+
+    const existingComments = this.getCommentsValue();
+    const updatedComments = existingComments.map(comment => {
+      if (comment.id === id) {
+        comment.savedText = value;
+      }
+
+      return comment;
+    });
+
+    localStorage.setItem(this.commentsKey, JSON.stringify(updatedComments));
+  }
+
+  getCommentText(id?: string): string {
+    if (!id) {
+      return localStorage.getItem(this.savedTextKey) || '';
+    }
+
+    const existingComments = this.getCommentsValue();
+    const updatedComments = existingComments.find(comment => comment.id === id);
+    return updatedComments?.savedText || '';
   }
 
   private getCommentsValue(): Comment[] {
