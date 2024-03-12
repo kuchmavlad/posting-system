@@ -5,6 +5,7 @@ export interface Comment {
   id: string;
   title: string;
   text: string;
+  savedText: string;
   tags: string[];
 }
 
@@ -15,10 +16,10 @@ export interface Comment {
 })
 export class CommentComponent {
   constructor(private localStorageService: LocalStorageService) {
-    this.comment = { id: '', title: '', text: '', tags: [] };
+    this.comment = { id: '', title: '', text: '', savedText: '', tags: [] };
   }
 
-  editMode: boolean = false;
+  editMode = false;
 
   @Input() comment: Comment;
 

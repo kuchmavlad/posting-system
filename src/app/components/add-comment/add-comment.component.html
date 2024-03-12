@@ -5,6 +5,7 @@
   </div>
   <div class="add-comment-body">
     <textarea
+      (input)="saveCommentTextHandle()"
       class="add-comment-input"
       rows="4"
       [(ngModel)]="value"
