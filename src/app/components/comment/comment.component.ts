@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { LocalStorageService } from '../../service/local-storage.service';
+import { LocalStorageService } from 'src/app/service/local-storage.service';
+import { defaultComment } from 'src/app/constants';
 
 export interface Comment {
   id: string;
-  title: string;
   text: string;
-  savedText: string;
+  persistedText: string;
+  persistedTags: string[];
   tags: string[];
 }
 
@@ -16,7 +17,7 @@ export interface Comment {
 })
 export class CommentComponent {
   constructor(private localStorageService: LocalStorageService) {
-    this.comment = { id: '', title: '', text: '', savedText: '', tags: [] };
+    this.comment = defaultComment;
   }
 
   editMode = false;

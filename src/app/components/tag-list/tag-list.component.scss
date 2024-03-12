@@ -1,0 +1,17 @@
+@import 'src/styles/variables';
+
+.tag-list {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+}
+
+.tag {
+  padding: 3px 8px;
+  border: $border-accent;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 14px;
+  color: $color-accent;
+}

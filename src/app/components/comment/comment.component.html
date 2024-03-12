@@ -3,6 +3,7 @@
     <span
       ><a class="comment-link" href="#">kuchmavlad</a> commented last week</span
     >
+    <app-tag-list [tags]="comment.tags" />
     <app-comment-actions
       (editHandle)="editHandle()"
       (removeHandle)="removeHandle()" />

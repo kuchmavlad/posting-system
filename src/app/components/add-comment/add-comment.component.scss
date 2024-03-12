@@ -15,8 +15,19 @@
 }
 
 .add-comment-header {
+  display: flex;
+  align-items: center;
+  position: relative;
   background: $color-bg-secondary;
   border-bottom: $border-primary;
+}
+
+.add-comment-header:not(:has(app-tag-list)) app-add-tags {
+  margin-left: auto;
+}
+
+app-tag-list {
+  margin-left: auto;
 }
 
 .add-comment-tab {
