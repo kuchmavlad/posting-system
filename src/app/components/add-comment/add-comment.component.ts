@@ -6,8 +6,9 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { LocalStorageService } from '../../service/local-storage.service';
+import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { Comment } from '../comment/comment.component';
+import { defaultComment } from 'src/app/constants';
 
 @Component({
   selector: 'app-add-comment',
@@ -16,10 +17,12 @@ import { Comment } from '../comment/comment.component';
 })
 export class AddCommentComponent implements OnChanges, OnInit {
   constructor(private localStorageService: LocalStorageService) {
-    this.comment = { id: '', title: '', text: '', savedText: '', tags: [] };
+    this.comment = defaultComment;
   }
 
-  value = '';
+  value: string = '';
+
+  tags: string[] = [];
 
   @Input() comment: Comment;
 
@@ -29,39 +32,65 @@ export class AddCommentComponent implements OnChanges, OnInit {
 
   emitCancel() {
     this.value = this.comment.text;
-    this.localStorageService.saveCommentText(
-      this.comment.text,
+    this.tags = this.comment.tags;
+    this.localStorageService.persistComment(
+      { persistedText: this.comment.text, persistedTags: this.comment.tags },
       this.comment.id
     );
     this.cancelHandle.emit();
   }
 
   addCommentHandle() {
-    this.localStorageService.addComment(this.value);
-    this.localStorageService.saveCommentText('');
+    this.localStorageService.addComment({ text: this.value, tags: this.tags });
+    this.localStorageService.persistComment({
+      persistedText: '',
+      persistedTags: [],
+    });
     this.value = '';
+    this.tags = [];
+  }
+
+  selectTagHandle(value: string) {
+    if (this.tags.includes(value)) {
+      this.tags = this.tags.filter(tag => tag !== value);
+    } else {
+      this.tags = [...this.tags, value];
+    }
+
+    this.persistCommentHandle();
   }
 
   editCommentHandle() {
-    this.localStorageService.editComment(this.value, this.comment.id);
+    this.localStorageService.editComment(
+      { text: this.value, tags: this.tags },
+      this.comment.id
+    );
     this.value = '';
+    this.tags = [];
   }
 
-  saveCommentTextHandle() {
-    this.localStorageService.saveCommentText(this.value, this.comment.id);
+  persistCommentHandle() {
+    this.localStorageService.persistComment(
+      { persistedText: this.value, persistedTags: this.tags },
+      this.comment.id
+    );
   }
 
   ngOnInit() {
-    const savedText = this.localStorageService.getCommentText(this.comment.id);
+    const persistedComment = this.localStorageService.getCommentText(
+      this.comment.id
+    );
 
-    if (savedText) {
-      this.value = savedText;
+    if (persistedComment) {
+      this.value = persistedComment.persistedText;
+      this.tags = persistedComment.persistedTags;
     }
   }
 
   ngOnChanges() {
     if (this.editMode) {
       this.value = this.comment.text;
+      this.tags = this.comment.tags;
     }
   }
 }

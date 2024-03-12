@@ -9,6 +9,8 @@ import { UserAvatarComponent } from './components/user-avatar/user-avatar.compon
 import { CommentBoxComponent } from './components/comment-box/comment-box.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { CommentActionsComponent } from './components/comment/comment-actions/comment-actions.component';
+import { TagListComponent } from './components/tag-list/tag-list.component';
+import { AddTagsComponent } from './components/add-tags/add-tags.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { CommentActionsComponent } from './components/comment/comment-actions/co
     CommentBoxComponent,
     CommentComponent,
     CommentActionsComponent,
+    TagListComponent,
+    AddTagsComponent,
   ],
   imports: [BrowserModule, NgOptimizedImage, FormsModule],
   providers: [],

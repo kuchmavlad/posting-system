@@ -1,0 +1,11 @@
+<button (click)="togglePopup()" class="add-tags-btn">+ Add tags</button>
+<div *ngIf="showPopup" class="popup">
+  <ul class="popup-list">
+    <li
+      *ngFor="let tag of tags_mock"
+      (click)="emitSelectedTag(tag)"
+      class="popup-item">
+      {{ tag }}
+    </li>
+  </ul>
+</div>

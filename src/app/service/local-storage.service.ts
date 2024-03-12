@@ -1,6 +1,17 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Comment } from '../components/comment/comment.component';
+import { Comment } from 'src/app/components/comment/comment.component';
+import { defaultComment } from 'src/app/constants';
+
+interface NewCommentProps {
+  text: string;
+  tags: string[];
+}
+
+interface PersistedCommentProps {
+  persistedText: string;
+  persistedTags: string[];
+}
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +19,7 @@ import { Comment } from '../components/comment/comment.component';
 export class LocalStorageService {
   private readonly commentsKey = 'comments';
 
-  private readonly savedTextKey = 'savedText';
+  private readonly persistedCommentKey = 'persistedCommentKey';
 
   private commentsSubject = new BehaviorSubject<Comment[]>([]);
 
@@ -20,15 +31,13 @@ export class LocalStorageService {
     return this.commentsSubject.asObservable();
   }
 
-  addComment(value: string): void {
+  addComment(comment: NewCommentProps): void {
     const existingComments = this.getCommentsValue();
 
-    const newComment: Comment = {
+    const newComment = {
+      ...defaultComment,
+      ...comment,
       id: String(Date.now()),
-      title: 'This is an item',
-      text: value,
-      savedText: '',
-      tags: ['bug', 'issue', 'etc'],
     };
 
     localStorage.setItem(
@@ -39,11 +48,11 @@ export class LocalStorageService {
     this.refreshComments();
   }
 
-  editComment(value: string, id: string): void {
+  editComment(updatedComment: NewCommentProps, id: string): void {
     const existingComments = this.getCommentsValue();
     const updatedComments = existingComments.map(comment => {
       if (comment.id === id) {
-        comment.text = value;
+        comment = { ...comment, ...updatedComment };
       }
 
       return comment;
@@ -61,15 +70,20 @@ export class LocalStorageService {
     this.refreshComments();
   }
 
-  saveCommentText(value: string, id?: string): void {
+  persistComment(persistedComment: PersistedCommentProps, id?: string): void {
     if (!id) {
-      localStorage.setItem(this.savedTextKey, value);
+      localStorage.setItem(
+        this.persistedCommentKey,
+        JSON.stringify(persistedComment)
+      );
+
+      return;
     }
 
     const existingComments = this.getCommentsValue();
     const updatedComments = existingComments.map(comment => {
       if (comment.id === id) {
-        comment.savedText = value;
+        comment = { ...comment, ...persistedComment };
       }
 
       return comment;
@@ -78,14 +92,15 @@ export class LocalStorageService {
     localStorage.setItem(this.commentsKey, JSON.stringify(updatedComments));
   }
 
-  getCommentText(id?: string): string {
+  getCommentText(id?: string): Comment {
     if (!id) {
-      return localStorage.getItem(this.savedTextKey) || '';
+      const existingComments = localStorage.getItem(this.persistedCommentKey);
+      return existingComments ? JSON.parse(existingComments) : defaultComment;
     }
 
     const existingComments = this.getCommentsValue();
     const updatedComments = existingComments.find(comment => comment.id === id);
-    return updatedComments?.savedText || '';
+    return updatedComments || defaultComment;
   }
 
   private getCommentsValue(): Comment[] {

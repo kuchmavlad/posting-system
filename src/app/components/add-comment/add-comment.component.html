@@ -2,10 +2,13 @@
   <div class="add-comment-header">
     <button class="add-comment-tab active">Write</button>
     <button class="add-comment-tab">Preview</button>
+
+    <app-tag-list [tags]="tags" />
+    <app-add-tags (selectTagHandle)="selectTagHandle($event)" />
   </div>
   <div class="add-comment-body">
     <textarea
-      (input)="saveCommentTextHandle()"
+      (input)="persistCommentHandle()"
       class="add-comment-input"
       rows="4"
       [(ngModel)]="value"
