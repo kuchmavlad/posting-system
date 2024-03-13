@@ -6,4 +6,10 @@ export const defaultComment = {
   tags: [],
 };
 
-export const tags_mock = ['bug', 'issue'];
+export const tags_mock = [
+  'bug',
+  'issue',
+  'documentation',
+  'duplicate',
+  'invalid',
+];

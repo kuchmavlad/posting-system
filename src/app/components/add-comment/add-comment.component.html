@@ -4,7 +4,9 @@
     <button class="add-comment-tab">Preview</button>
 
     <app-tag-list [tags]="tags" />
-    <app-add-tags (selectTagHandle)="selectTagHandle($event)" />
+    <app-actions-popup
+      (selectTagHandle)="selectTagHandle($event)"
+      btnText="+ Add tags" />
   </div>
   <div class="add-comment-body">
     <textarea
@@ -30,10 +32,7 @@
       <button (click)="emitCancel()" class="add-comment-btn cancel-btn">
         Cancel
       </button>
-      <button
-        [disabled]="false"
-        (click)="editCommentHandle()"
-        class="add-comment-btn">
+      <button (click)="editCommentHandle()" class="add-comment-btn">
         Update comment
       </button>
     </ng-template>
