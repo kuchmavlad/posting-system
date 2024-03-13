@@ -8,13 +8,30 @@ import { Comment } from './components/comment/comment.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  comments: Comment[] = [];
-
   constructor(private localStorageService: LocalStorageService) {}
 
+  comments: Comment[] = [];
+
+  selectedTags: string = '';
+
   ngOnInit(): void {
-    this.localStorageService.getComments().subscribe(comments => {
-      this.comments = comments;
-    });
+    this.refreshComments();
+  }
+
+  onTagsChange(tag: string): void {
+    this.toggleTag(tag);
+    this.refreshComments();
+  }
+
+  private refreshComments(): void {
+    this.localStorageService
+      .getFilteredComments(this.selectedTags)
+      .subscribe(comments => {
+        this.comments = comments;
+      });
+  }
+
+  private toggleTag(tag: string) {
+    this.selectedTags = this.selectedTags === tag ? '' : tag;
   }
 }

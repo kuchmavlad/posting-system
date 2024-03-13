@@ -10,7 +10,7 @@ import { CommentBoxComponent } from './components/comment-box/comment-box.compon
 import { CommentComponent } from './components/comment/comment.component';
 import { CommentActionsComponent } from './components/comment/comment-actions/comment-actions.component';
 import { TagListComponent } from './components/tag-list/tag-list.component';
-import { AddTagsComponent } from './components/add-tags/add-tags.component';
+import { ActionsPopupComponent } from './components/actions-popup/actions-popup.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import { AddTagsComponent } from './components/add-tags/add-tags.component';
     CommentComponent,
     CommentActionsComponent,
     TagListComponent,
-    AddTagsComponent,
+    ActionsPopupComponent,
   ],
   imports: [BrowserModule, NgOptimizedImage, FormsModule],
   providers: [],

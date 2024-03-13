@@ -1,13 +1,15 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { tags_mock } from 'src/app/constants';
 
 @Component({
-  selector: 'app-add-tags',
-  templateUrl: './add-tags.component.html',
-  styleUrls: ['./add-tags.component.scss'],
+  selector: 'app-actions-popup',
+  templateUrl: './actions-popup.component.html',
+  styleUrls: ['./actions-popup.component.scss'],
 })
-export class AddTagsComponent {
+export class ActionsPopupComponent {
   showPopup: boolean = false;
+
+  @Input() btnText: string = '';
 
   @Output() selectTagHandle = new EventEmitter<string>();
 

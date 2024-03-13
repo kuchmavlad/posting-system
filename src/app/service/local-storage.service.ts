@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Comment } from 'src/app/components/comment/comment.component';
 import { defaultComment } from 'src/app/constants';
 
@@ -19,7 +19,7 @@ interface PersistedCommentProps {
 export class LocalStorageService {
   private readonly commentsKey = 'comments';
 
-  private readonly persistedCommentKey = 'persistedCommentKey';
+  private readonly persistedCommentKey = 'persistedComment';
 
   private commentsSubject = new BehaviorSubject<Comment[]>([]);
 
@@ -27,12 +27,8 @@ export class LocalStorageService {
     this.refreshComments();
   }
 
-  getComments(): Observable<Comment[]> {
-    return this.commentsSubject.asObservable();
-  }
-
   addComment(comment: NewCommentProps): void {
-    const existingComments = this.getCommentsValue();
+    const existingComments = this.getComments();
 
     const newComment = {
       ...defaultComment,
@@ -49,7 +45,7 @@ export class LocalStorageService {
   }
 
   editComment(updatedComment: NewCommentProps, id: string): void {
-    const existingComments = this.getCommentsValue();
+    const existingComments = this.getComments();
     const updatedComments = existingComments.map(comment => {
       if (comment.id === id) {
         comment = { ...comment, ...updatedComment };
@@ -62,7 +58,7 @@ export class LocalStorageService {
   }
 
   removeComment(id: string): void {
-    const existingComments = this.getCommentsValue();
+    const existingComments = this.getComments();
     const updatedComments = existingComments.filter(
       comment => comment.id !== id
     );
@@ -80,7 +76,7 @@ export class LocalStorageService {
       return;
     }
 
-    const existingComments = this.getCommentsValue();
+    const existingComments = this.getComments();
     const updatedComments = existingComments.map(comment => {
       if (comment.id === id) {
         comment = { ...comment, ...persistedComment };
@@ -92,24 +88,37 @@ export class LocalStorageService {
     localStorage.setItem(this.commentsKey, JSON.stringify(updatedComments));
   }
 
-  getCommentText(id?: string): Comment {
+  getPersistedComment(id?: string): Comment | undefined {
     if (!id) {
       const existingComments = localStorage.getItem(this.persistedCommentKey);
       return existingComments ? JSON.parse(existingComments) : defaultComment;
     }
 
-    const existingComments = this.getCommentsValue();
-    const updatedComments = existingComments.find(comment => comment.id === id);
-    return updatedComments || defaultComment;
+    const existingComments = this.getComments();
+    return existingComments.find(comment => comment.id === id);
   }
 
-  private getCommentsValue(): Comment[] {
+  private getComments(): Comment[] {
     const existingComments = localStorage.getItem(this.commentsKey);
     return existingComments ? JSON.parse(existingComments) : [];
   }
 
   private refreshComments(): void {
-    const comments = this.getCommentsValue();
+    const comments = this.getComments();
     this.commentsSubject.next(comments);
+  }
+
+  getFilteredComments(selectedTag: string): Observable<Comment[]> {
+    return this.commentsSubject.pipe(
+      map(comments => {
+        if (!selectedTag) {
+          return comments;
+        } else {
+          return comments.filter(comment =>
+            comment.tags.some(tag => selectedTag.includes(tag))
+          );
+        }
+      })
+    );
   }
 }

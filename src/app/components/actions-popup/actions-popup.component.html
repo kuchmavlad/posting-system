@@ -1,4 +1,4 @@
-<button (click)="togglePopup()" class="add-tags-btn">+ Add tags</button>
+<button (click)="togglePopup()" class="add-tags-btn">{{ btnText }}</button>
 <div *ngIf="showPopup" class="popup">
   <ul class="popup-list">
     <li
