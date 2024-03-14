@@ -29,10 +29,6 @@ export class CommentComponent {
   }
 
   removeHandle() {
-    const confirmed = window.confirm('Are you sure you want to delete this?');
-
-    if (confirmed) {
-      this.localStorageService.removeComment(this.comment.id);
-    }
+    this.localStorageService.removeComment(this.comment.id);
   }
 }
