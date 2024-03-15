@@ -76,8 +76,11 @@ export class AddCommentComponent implements OnInit {
     this.cancelHandle.emit();
   }
 
-  addCommentHandle() {
-    this.localStorageService.addComment({ text: this.value, tags: this.tags });
+  async addCommentHandle() {
+    await this.localStorageService.addComment({
+      text: this.value,
+      tags: this.tags,
+    });
 
     this.clearInput();
   }
@@ -88,8 +91,8 @@ export class AddCommentComponent implements OnInit {
     this.persistComment();
   }
 
-  editCommentHandle() {
-    this.localStorageService.editComment(
+  async editCommentHandle() {
+    await this.localStorageService.editComment(
       { text: this.value, tags: this.tags },
       this.comment.id
     );

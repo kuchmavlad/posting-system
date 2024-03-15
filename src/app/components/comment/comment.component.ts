@@ -28,7 +28,7 @@ export class CommentComponent {
     this.editMode = !this.editMode;
   }
 
-  removeHandle() {
-    this.localStorageService.removeComment(this.comment.id);
+  async removeHandle() {
+      await this.localStorageService.removeComment(this.comment.id);
   }
 }
