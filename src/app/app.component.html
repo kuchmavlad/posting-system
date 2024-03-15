@@ -1,11 +1,5 @@
 <div class="comments-list">
-  <app-actions-popup
-    (selectTagHandle)="onTagsChange($event)"
-    btnText="Filter by {{ selectedTags }}" />
-
-  <app-comment-box *ngFor="let comment of comments">
-    <app-comment [comment]="comment" />
-  </app-comment-box>
+  <app-comments-list />
 
   <app-comment-box>
     <div class="add-comment-wrapper">

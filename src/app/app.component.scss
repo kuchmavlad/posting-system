@@ -13,13 +13,6 @@
   color: $color-primary;
 }
 
-.add-comment-wrapper,
-app-comment {
+.add-comment-wrapper {
   flex: 1;
-}
-
-app-actions-popup {
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
 }
