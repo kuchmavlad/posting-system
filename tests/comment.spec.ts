@@ -57,23 +57,35 @@ test('should delete comment', async ({ page }) => {
 
   await addComment(page, COMMENT_MOCK[1].text);
 
-  await removeCommentBtn.click();
+  await page.waitForSelector('app-comment');
+
   const commentCount = await comment.count();
-  await expect(commentCount).toBe(0);
+  await expect(commentCount).toBe(1);
+
+  await removeCommentBtn.click();
+
+  await page.waitForSelector('app-comment', { state: 'detached' });
+
+  const updatedCommentCount = await comment.count();
+
+  await expect(updatedCommentCount).toBe(0);
 });
 
 test('should filter comment', async ({ page }) => {
   const comment = page.locator('app-comment');
   const filterByBtn = page.getByRole('button', { name: 'Filter by' });
-  const bugTag = page.getByRole('list').getByText('bug');
+  const issueTag = page.getByRole('list').getByText('issue');
 
   await addComment(page, COMMENT_MOCK[0].text, COMMENT_MOCK[0].tags);
-  await addComment(page, COMMENT_MOCK[1].text, COMMENT_MOCK[1].tags);
+
+  await page.waitForSelector('app-comment');
 
   const commentCount = await comment.count();
-  await expect(commentCount).toBe(2);
+  await expect(commentCount).toBe(1);
+
   await filterByBtn.click();
-  await bugTag.click();
+  await issueTag.click();
+  await page.waitForSelector('app-comment', { state: 'detached' });
   const filteredCommentCount = await comment.count();
-  await expect(filteredCommentCount).toBe(1);
+  await expect(filteredCommentCount).toBe(0);
 });

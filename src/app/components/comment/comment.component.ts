@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { LocalStorageService } from 'src/app/service/local-storage.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { defaultComment } from 'src/app/constants';
 
 export interface Comment {
@@ -16,7 +15,7 @@ export interface Comment {
   styleUrls: ['./comment.component.scss'],
 })
 export class CommentComponent {
-  constructor(private localStorageService: LocalStorageService) {
+  constructor() {
     this.comment = defaultComment;
   }
 
@@ -24,11 +23,13 @@ export class CommentComponent {
 
   @Input() comment: Comment;
 
+  @Output() removeCommentEvent = new EventEmitter<string>();
+
   editHandle() {
     this.editMode = !this.editMode;
   }
 
   async removeHandle() {
-      await this.localStorageService.removeComment(this.comment.id);
+    this.removeCommentEvent.emit(this.comment.id);
   }
 }

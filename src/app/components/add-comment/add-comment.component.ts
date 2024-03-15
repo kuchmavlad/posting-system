@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { Comment } from '../comment/comment.component';
 import { defaultComment } from 'src/app/constants';
+import { CommentsService } from '../../service/comments.service';
 
 @Component({
   selector: 'app-add-comment',
@@ -9,7 +9,7 @@ import { defaultComment } from 'src/app/constants';
   styleUrls: ['./add-comment.component.scss'],
 })
 export class AddCommentComponent implements OnInit {
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(private commentsService: CommentsService) {}
 
   value = '';
 
@@ -31,7 +31,7 @@ export class AddCommentComponent implements OnInit {
       this.tags = this.comment.tags;
     }
 
-    const persistedComment = this.localStorageService.getPersistedComment(
+    const persistedComment = this.commentsService.getPersistedComment(
       this.comment.id
     );
 
@@ -44,7 +44,7 @@ export class AddCommentComponent implements OnInit {
   }
 
   private persistComment() {
-    this.localStorageService.persistComment(
+    this.commentsService.persistComment(
       {
         persistedText: this.value,
         persistedTags: this.tags,
@@ -77,7 +77,7 @@ export class AddCommentComponent implements OnInit {
   }
 
   async addCommentHandle() {
-    await this.localStorageService.addComment({
+    await this.commentsService.addComment({
       text: this.value,
       tags: this.tags,
     });
@@ -92,7 +92,7 @@ export class AddCommentComponent implements OnInit {
   }
 
   async editCommentHandle() {
-    await this.localStorageService.editComment(
+    await this.commentsService.editComment(
       { text: this.value, tags: this.tags },
       this.comment.id
     );

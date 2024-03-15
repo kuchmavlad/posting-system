@@ -1,0 +1,9 @@
+<app-actions-popup
+  (selectTagHandle)="onTagsChange($event)"
+  btnText="Filter by {{ selectedTags }}" />
+
+<app-comment-box *ngFor="let comment of comments">
+  <app-comment
+    (removeCommentEvent)="removeHandle($event)"
+    [comment]="comment" />
+</app-comment-box>
